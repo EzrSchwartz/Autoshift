@@ -20,21 +20,36 @@ with open('Sensors.json', 'r') as file:
     device_addresses = json.load(file)
 with open(' (CIRCUITPY)Weights.json', 'r') as file:
     model_data = json.load(file)
-shiftup_input_pin = DigitalInOut(board.A4)
-shiftup_input_pin.direction = Direction.INPUT
-shiftup_input_pin.pull = Pull.UP
 
-# Define the output pin
-shiftup_output_pin = DigitalInOut(board.A5)
-shiftup_output_pin.direction = Direction.OUTPUT
+import board
+import analogio
+import pwmio
+import time
 
-shiftdown_input_pin = DigitalInOut(board.A0)
-shiftdown_input_pin.direction = Direction.INPUT
-shiftdown_input_pin.pull = Pull.UP
+# Initialize A1 as analog input
+DonwShift_analog_in = analogio.AnalogIn(board.A1)
 
-# Define the output pin
-shiftdown_output_pin = DigitalInOut(board.A1)
-shiftdown_output_pin.direction = Direction.OUTPUT
+# Initialize A2 as PWM output
+
+def get_duty_cycle(analog_value):
+    # Convert the analog value (0-65535) to a duty cycle (0-65535)
+    return analog_value
+
+# shiftup_input_pin = DigitalInOut(board.A4)
+# shiftup_input_pin.direction = Direction.INPUT
+# shiftup_input_pin.pull = Pull.UP
+
+# # Define the output pin
+# shiftup_output_pin = DigitalInOut(board.A3)
+# shiftup_output_pin.direction = Direction.OUTPUT
+
+# shiftdown_input_pin = DigitalInOut(board.A2)
+# shiftdown_input_pin.direction = Direction.INPUT
+# shiftdown_input_pin.pull = Pull.UP
+
+# # Define the output pin
+# shiftdown_output_pin = DigitalInOut(board.A1)
+# shiftdown_output_pin.direction = Direction.OUTPUT
 
 
 def dot_product(v1, v2):
@@ -94,12 +109,19 @@ def exp(x):
 
 
 def upshift():
-    shiftup_output_pin.value = shiftup_input_pin.value
+    Upshift_pmw_out = pwmio.PWMOut(board.A5, frequency=5000, duty_cycle=0)
+    time.sleep(1)
+    Upshift_pmw_out.deinit()
     print("Shifting UP")
 
 
 def downshift():
-    shiftdown_output_pin.value = shiftdown_input_pin.value
+    Downshift_pwm_out = pwmio.PWMOut(board.A2, frequency=5000, duty_cycle=0)
+    time.sleep(1)
+    Downshift_pwm_out.deinit()  
+    
+
+    # shiftdown_output_pin.value = shiftdown_input_pin.value
     print("Shifting DOWN")
 
 
