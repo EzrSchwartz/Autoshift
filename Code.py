@@ -260,14 +260,17 @@ def read_sensors_and_shift(cadence_sensor,power_sensor):
                     if (current_time - prevtime >= 5):
                         features = [power, cadence, speed, (current_time - lastshiftingtime)]  # Replace with actual values
                         predicted_label, probabilities = predict(features, model_data)
+                        print(probabilities)
                         if (predicted_label == 0):
                             print("STAY")
                             continue
-                        if (predicted_label == 1 & probabilities > 85):
+                        if (predicted_label == 1):
+                        #Harder Gear
                             upshift()
                             lastshiftingtime = time.time()
 
-                        if (predicted_label == 2 & probabilities > 85):
+                        if (predicted_label == 2):
+                        #Easier Gear
                             downshift()
                             lastshiftingtime = time.time()
                         prevtime = time.time()
