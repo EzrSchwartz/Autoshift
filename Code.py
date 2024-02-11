@@ -6,7 +6,7 @@ import json
 import gc
 import _bleio 
 import board
-from cyclingPower import CyclingPowerService, _CPMeasurement
+from cycling_power_service import CyclingPowerService, _CPMeasurement
 from digitalio import DigitalInOut, Direction, Pull
 
 prev_Tot_Time = 0
